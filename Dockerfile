@@ -10,7 +10,7 @@ ADD https://drive.usercontent.google.com/download?id=1GoBYoWTeOTFGz2nhJgcLCPH6zR
 # Copy source code and model
 COPY . ./
 RUN ls
-RUN cd app
+RUN cd model
 RUN ls
 
 # Expose port & run app using Gunicorn
