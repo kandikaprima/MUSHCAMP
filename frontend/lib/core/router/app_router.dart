@@ -4,6 +4,7 @@ import '../../presentation/pages/splash_page.dart';
 import '../../presentation/pages/home_page.dart';
 import '../../presentation/pages/capture_page.dart';
 import '../../presentation/pages/detail_page.dart';
+import '../../data/models/mushroom_result.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
@@ -27,7 +28,12 @@ class AppRouter {
       GoRoute(
         path: '/detail',
         name: 'detail',
-        builder: (context, state) => const DetailPage(),
+        builder: (context, state) {
+          final data = state.extra as Map<String, dynamic>;
+          final result = data['result'] as MushroomResult;
+          final imagePath = data['imagePath'] as String;
+          return DetailPage(result: result, imagePath: imagePath);
+        },
       ),
     ],
   );
