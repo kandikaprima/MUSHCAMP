@@ -4,24 +4,18 @@ import numpy as np
 from PIL import Image
 import io
 
-# Inisialisasi Flask
 app = Flask(__name__)
+model = tf.keras.models.load_model('model/model_EfficientNetB7.h5')
 
-# Load model
-model = tf.keras.models.load_model("model/saved_model.h5")
-
-@app.route("/", methods=["GET"])
+@app.route("/")
 def home():
-    return "Model API is running!"
+    return "Flask model API is running locally!"
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    if "file" not in request.files:
-        return jsonify({"error": "No file part"}), 400
-
-    file = request.files["file"]
-    if file.filename == "":
-        return jsonify({"error": "No selected file"}), 400
+    file = request.files.get("file")
+    if not file:
+        return jsonify({"error": "No file provided"}), 400
 
     try:
         image = Image.open(file.stream).resize((300, 300))
@@ -31,6 +25,5 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Jalankan lokal (opsional)
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+    app.run(debug=False, port=5000)
