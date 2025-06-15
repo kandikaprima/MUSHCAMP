@@ -1,7 +1,5 @@
 Flask==2.3.2
-Pyrebase4==4.7.0
-gunicorn==20.1.0
-opencv-python-headless
+tensorflow==2.18.0
+Pillow
 numpy
-tensorflow==2.15.0
-requests-toolbelt==0.10.1
+gunicorn
