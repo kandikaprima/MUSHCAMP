@@ -5,7 +5,7 @@ from PIL import Image
 import io
 
 app = Flask(__name__)
-model = tf.keras.models.load_model('app/model_EfficientNetB7.h5')
+model = tf.keras.models.load_model('model/model_EfficientNetB7.h5')
 
 @app.route("/")
 def home():
