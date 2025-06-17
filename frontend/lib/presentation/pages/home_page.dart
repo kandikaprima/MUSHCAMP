@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_texts.dart';
-import '../../../data/models/mushroom_result.dart';
+import '../widgets/mushroom_tile.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -71,24 +71,7 @@ class HomePage extends StatelessWidget {
               itemBuilder: (context, index) {
                 final name = AppTexts.mushroomList[index];
                 final image = AppTexts.mushroomImages[name] ?? '';
-
-                return Card(
-                  elevation: 2,
-                  margin: const EdgeInsets.symmetric(vertical: 6),
-                  child: ListTile(
-                    leading: image.isNotEmpty
-                        ? Image.asset(image, width: 50, height: 50, fit: BoxFit.cover)
-                        : const Icon(Icons.image),
-                    title: Text(name, style: GoogleFonts.lato(fontSize: 16, fontWeight: FontWeight.w600)),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                    onTap: () {
-                      context.push('/detail', extra: {
-                        'result': MushroomResult(label: name, confidence: 1.0),
-                        'imagePath': image,
-                      });
-                    },
-                  ),
-                );
+                return MushroomTile(name: name, image: image);
               },
             ),
           ],
