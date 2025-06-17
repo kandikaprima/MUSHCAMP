@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../data/models/mushroom_result.dart';
 import '../../logic/detection_bloc/detection_bloc.dart';
+import '../widgets/camera_button.dart';
 
 class CapturePage extends StatefulWidget {
   const CapturePage({super.key});
@@ -24,15 +25,6 @@ class _CapturePageState extends State<CapturePage> {
     final picked = await _picker.pickImage(source: ImageSource.gallery);
     if (picked != null) {
       setState(() => _selectedImage = File(picked.path));
-    }
-  }
-
-  Future<void> _pickFromCameraAndDetect() async {
-    final picked = await _picker.pickImage(source: ImageSource.camera);
-    if (picked != null) {
-      final image = File(picked.path);
-      setState(() => _selectedImage = image);
-      context.read<DetectionBloc>().add(DetectionStarted(image.path));
     }
   }
 
@@ -109,12 +101,9 @@ class _CapturePageState extends State<CapturePage> {
                 backgroundColor: AppColors.blue,
                 child: const Icon(Icons.folder, color: AppColors.yellow),
               ),
-              FloatingActionButton(
-                heroTag: 'camera',
-                onPressed: _pickFromCameraAndDetect,
-                backgroundColor: AppColors.blue,
-                child: const Icon(Icons.image_search, color: AppColors.yellow),
-              ),
+              CameraButton(
+                onImagePicked: (image) => setState(() => _selectedImage = image),
+              )
             ],
           ),
         ),
