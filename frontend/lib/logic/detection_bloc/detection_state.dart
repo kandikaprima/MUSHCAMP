@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+part of 'detection_bloc.dart';
 
 abstract class DetectionState extends Equatable {
   const DetectionState();

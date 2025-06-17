@@ -1,17 +1,23 @@
+import 'dart:io';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'detection_event.dart';
-import 'detection_state.dart';
+import 'package:frontend/data/repositories/mushroom_repository.dart';
+
+part 'detection_event.dart';
+part 'detection_state.dart';
 
 class DetectionBloc extends Bloc<DetectionEvent, DetectionState> {
-  DetectionBloc() : super(DetectionInitial()) {
+  final MushroomRepository repository;
+
+  DetectionBloc({required this.repository}) : super(DetectionInitial()) {
     on<DetectionStarted>((event, emit) async {
       emit(DetectionLoading());
-
-      // Simulasi loading deteksi
-      await Future.delayed(const Duration(seconds: 2));
-
-      // TODO: Panggil API ke GCP di sini
-      emit(const DetectionSuccess(label: 'Agaricus', confidence: 0.92));
+      try {
+        final result = await repository.detectMushroom(File(event.imagePath));
+        emit(DetectionSuccess(label: result.label, confidence: result.confidence));
+      } catch (e) {
+        emit(const DetectionFailure("Gagal mendeteksi jamur."));
+      }
     });
   }
 }
