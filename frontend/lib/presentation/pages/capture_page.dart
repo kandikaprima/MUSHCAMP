@@ -48,7 +48,10 @@ class _CapturePageState extends State<CapturePage> {
           ),
           title: const Text(
             "MushCamp",
-            style: TextStyle(color: AppColors.yellow, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: AppColors.yellow,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           actions: [
             Padding(
@@ -57,42 +60,56 @@ class _CapturePageState extends State<CapturePage> {
                 backgroundColor: AppColors.yellow,
                 child: Image.asset('assets/logo.png', width: 30, height: 30),
               ),
-            )
-          ],
-        ),
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: _selectedImage != null
-                  ? Image.file(_selectedImage!, fit: BoxFit.cover)
-                  : const Center(child: Text("No image selected")),
             ),
-            if (_selectedImage != null)
-              const Align(
-                alignment: Alignment.center,
-                child: Icon(Icons.circle_outlined, size: 120, color: Colors.white30),
-              ),
-            BlocBuilder<DetectionBloc, DetectionState>(
-              builder: (context, state) {
-                if (state is DetectionLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                return const SizedBox.shrink();
-              },
-            )
           ],
         ),
+        body: _selectedImage == null
+            ? const Center(
+                child: Text(
+                  "No image selected",
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                ),
+              )
+            : Stack(
+                children: [
+                  Positioned.fill(
+                    child: Image.file(_selectedImage!, fit: BoxFit.cover),
+                  ),
+                  const Align(
+                    alignment: Alignment.center,
+                    child: Icon(Icons.circle_outlined, size: 120, color: Colors.white30),
+                  ),
+                  BlocBuilder<DetectionBloc, DetectionState>(
+                    builder: (context, state) {
+                      if (state is DetectionLoading) {
+                        return Container(
+                          color: Colors.black26,
+                          child: const Center(child: CircularProgressIndicator()),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ],
+              ),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(left: 32),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GalleryButton(
-                onImagePicked: (image) => setState(() => _selectedImage = image),
+                onImagePicked: (image) {
+                  setState(() => _selectedImage = image);
+                },
               ),
               CameraButton(
-                onImagePicked: (image) => setState(() => _selectedImage = image),
-              )
+                onImagePicked: (image) {
+                  setState(() => _selectedImage = image);
+                  context
+                      .read<DetectionBloc>()
+                      .add(DetectionStarted(image.path));
+                },
+              ),
             ],
           ),
         ),
