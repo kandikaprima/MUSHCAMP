@@ -7,11 +7,11 @@ import io
 app = Flask(__name__)
 model = tf.keras.models.load_model('model_EfficientNetB7.h5')
 
-@app.route("/")
+@app.route("/", methods=['POST', 'GET'])
 def home():
-    return "Flask model API is running locally!"
+    return jsonify("Service berjalan")
 
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=['POST', 'GET'])
 def predict():
     file = request.files.get("file")
     if not file:
