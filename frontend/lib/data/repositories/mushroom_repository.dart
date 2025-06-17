@@ -6,30 +6,28 @@ class MushroomRepository {
   final Dio _dio = Dio();
 
   Future<MushroomResult> detectMushroom(File imageFile) async {
-    const url = 'http://10.0.2.2:5000/predict';
+    const url = '...';
 
-    final formData = FormData.fromMap({
-      'file': await MultipartFile.fromFile(imageFile.path, filename: 'image.jpg'),
-    });
+    try {
+      final formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(imageFile.path, filename: 'image.jpg'),
+      });
 
-    final response = await _dio.post(url, data: formData);
+      final response = await _dio.post(url, data: formData);
+      final List<dynamic> pred = response.data['prediction'][0];
+      final int maxIdx = pred.indexWhere((e) => e == pred.reduce((a, b) => a > b ? a : b));
 
-    final List<dynamic> pred = response.data['prediction'][0];
-    final int maxIdx = pred.indexWhere((e) => e == pred.reduce((a, b) => a > b ? a : b));
-    final labels = [
-      'Agaricus',
-      'Amanita',
-      'Cortinarius',
-      'Entoloma',
-      'Hygrocybe',
-      'Lactarius',
-      'Russula',
-      'Suillus',
-    ];
+      final labels = [
+        'Agaricus', 'Amanita', 'Boletus', 'Cortinarius', 'Entoloma',
+        'Hygrocybe', 'Lactarius', 'Russula', 'Suillus',
+      ];
 
-    return MushroomResult(
-      label: labels[maxIdx],
-      confidence: pred[maxIdx],
-    );
+      return MushroomResult(
+        label: labels[maxIdx],
+        confidence: pred[maxIdx],
+      );
+    } on DioException catch (e) {
+      throw Exception('Gagal memproses gambar: ${e.message}');
+    }
   }
 }
