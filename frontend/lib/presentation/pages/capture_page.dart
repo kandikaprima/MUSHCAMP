@@ -77,14 +77,14 @@ class _CapturePageState extends State<CapturePage> {
                   ),
                   const Align(
                     alignment: Alignment.center,
-                    child: Icon(Icons.circle_outlined, size: 120, color: Colors.white30),
+                    child: Icon(Icons.circle_outlined, size: 120, color: Colors.white24),
                   ),
                   BlocBuilder<DetectionBloc, DetectionState>(
                     builder: (context, state) {
                       if (state is DetectionLoading) {
                         return Container(
-                          color: Colors.black26,
-                          child: const Center(child: CircularProgressIndicator()),
+                          color: Colors.black45,
+                          child: const Center(child: CircularProgressIndicator(color: Colors.white,)),
                         );
                       }
                       return const SizedBox.shrink();
