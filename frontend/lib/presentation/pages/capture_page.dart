@@ -5,10 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../core/constants/app_colors.dart';
-import '../../data/models/mushroom_result.dart';
-import '../../logic/detection_bloc/detection_bloc.dart';
 import '../widgets/camera_button.dart';
+import '../widgets/gallery_button.dart';
+import '../../data/models/mushroom_result.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../logic/detection_bloc/detection_bloc.dart';
 
 class CapturePage extends StatefulWidget {
   const CapturePage({super.key});
@@ -95,11 +96,8 @@ class _CapturePageState extends State<CapturePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              FloatingActionButton.small(
-                heroTag: 'gallery',
-                onPressed: _pickFromGallery,
-                backgroundColor: AppColors.blue,
-                child: const Icon(Icons.folder, color: AppColors.yellow),
+              GalleryButton(
+                onImagePicked: (image) => setState(() => _selectedImage = image),
               ),
               CameraButton(
                 onImagePicked: (image) => setState(() => _selectedImage = image),
