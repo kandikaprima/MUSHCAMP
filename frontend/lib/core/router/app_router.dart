@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../presentation/pages/splash_page.dart';
 import '../../presentation/pages/home_page.dart';
@@ -9,6 +8,7 @@ import '../../data/models/mushroom_result.dart';
 class AppRouter {
   static final GoRouter router = GoRouter(
     initialLocation: '/',
+    // errorBuilder: (context, state) => const NotFoundPage(),
     routes: [
       GoRoute(
         path: '/',
