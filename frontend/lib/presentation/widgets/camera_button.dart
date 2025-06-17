@@ -17,12 +17,13 @@ class CameraButton extends StatelessWidget {
       heroTag: 'camera',
       backgroundColor: AppColors.blue,
       onPressed: () async{
+        final bloc = context.read<DetectionBloc>();
         final picker = ImagePicker();
         final picked = await picker.pickImage(source: ImageSource.camera);
         if (picked != null) {
           final image = File(picked.path);
           onImagePicked(image);
-          context.read<DetectionBloc>().add(DetectionStarted(image.path));
+          bloc.add(DetectionStarted(image.path));
         }
       },
       child: const Icon(Icons.image_search, color: AppColors.yellow),
