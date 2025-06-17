@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../widgets/camera_button.dart';
 import '../widgets/gallery_button.dart';
@@ -20,14 +19,6 @@ class CapturePage extends StatefulWidget {
 
 class _CapturePageState extends State<CapturePage> {
   File? _selectedImage;
-  final ImagePicker _picker = ImagePicker();
-
-  Future<void> _pickFromGallery() async {
-    final picked = await _picker.pickImage(source: ImageSource.gallery);
-    if (picked != null) {
-      setState(() => _selectedImage = File(picked.path));
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
