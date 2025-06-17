@@ -25,6 +25,7 @@ class AppTexts {
   static const mushroomList = [
     'Agaricus',
     'Amanita',
+    'Boletus',
     'Cortinarius',
     'Entoloma',
     'Hygrocybe',
