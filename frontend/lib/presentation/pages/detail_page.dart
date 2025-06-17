@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../../data/models/mushroom_result.dart';
-import '../../../core/constants/app_colors.dart';
+
 import '../../../core/constants/app_texts.dart';
+import '../../../core/constants/app_colors.dart';
+import '../../../data/models/mushroom_result.dart';
 
 class DetailPage extends StatelessWidget {
   final MushroomResult result;
@@ -65,8 +66,17 @@ class DetailPage extends StatelessWidget {
                     thickness: 2,
                   ),
                   const SizedBox(height: 6),
-                  Text('Confidence: ${(result.confidence * 100).toStringAsFixed(2)}%',
-                      style: const TextStyle(fontSize: 16)),
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        const TextSpan(text: 'Confidence: '),
+                        TextSpan(
+                          text: '${(result.confidence * 100).toStringAsFixed(2)}%',
+                          style: const TextStyle(fontWeight: FontWeight.bold)
+                        )
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 12),
                   Text('Penjelasan Lebih Lanjut:',
                       style: TextStyle(fontSize: 14, color: Colors.grey.shade700)),
