@@ -1,0 +1,6 @@
+#backend
+backend/model
+
+#deep-learning
+.venv-mushcamp
+__pycache__
