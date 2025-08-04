@@ -5,7 +5,7 @@ from PIL import Image
 import io
 
 app = Flask(__name__)
-model = tf.keras.models.load_model('model_EfficientNetB7.h5')
+model = tf.keras.models.load_model('model_vgg16.h5')
 
 @app.route("/", methods=['POST', 'GET'])
 def home():
@@ -27,3 +27,4 @@ def predict():
 
 if __name__ == "__main__":
     app.run(debug=False, port=5000)
+
